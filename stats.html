@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Statistieken – Ontdek ze allemaal!</title>
+  <link rel="preload" href="bg-pattern-tile.jpg" as="image">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/themes/light.css">
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/shoelace.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="title">Top  |  Speler Scores</h1>
+    <nav class="nav">
+      <sl-button href="index.html" variant="default" pill>Terug naar Spel</sl-button>
+      <sl-button id="refreshBtn" variant="primary" pill>Refreshen</sl-button>
+    </nav>
+  </header>
+
+  <main class="layout" style="grid-template-columns:1fr;">
+    <section class="panel">
+      <h2>Top 10!</h2>
+      <div style="padding:12px">
+        <table style="width:100%; border-collapse:collapse">
+          <thead>
+            <tr style="text-align:left">
+              <th>Naam</th>
+              <th>Beurten</th>
+              <th>Tijd (s)</th>
+            </tr>
+          </thead>
+          <tbody id="scoresBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>Scores worden gesorteerd op aantal beurten, en daarna snelste tijd!</small>
+  </footer>
+
+  <script>
+    const tbody = document.getElementById('scoresBody');
+    const refreshBtn = document.getElementById('refreshBtn');
+    async function loadScores(){
+      tbody.innerHTML = '';
+      try{
+        const res = await fetch('api/scores.php', {cache:'no-store'});
+        if(!res.ok){ tbody.innerHTML = '<tr><td colspan="3">Kon scores niet laden.</td></tr>'; return; }
+        const list = await res.json();
+        if(!Array.isArray(list) || !list.length){ tbody.innerHTML = '<tr><td colspan="3">Nog geen scores!</td></tr>'; return; }
+        list.forEach((row, idx)=>{
+          const tr = document.createElement('tr');
+          if(idx===0){ tr.style.fontWeight = '700'; }
+          tr.innerHTML = `<td>${row.name}</td><td>${row.turns}</td><td>${row.seconds}</td>`;
+          tbody.appendChild(tr);
+        });
+      }catch(e){
+        tbody.innerHTML = '<tr><td colspan="3">Fout bij laden.</td></tr>';
+      }
+    }
+    refreshBtn.addEventListener('click', loadScores);
+    loadScores();
+  </script>
+</body>
+</html>
+
+
+

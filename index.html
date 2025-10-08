@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ontdek ze allemaal!</title>
+  <link rel="preload" href="bg-pattern-tile.jpg" as="image">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/themes/light.css">
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/shoelace.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="title">Ontdek ze allemaal!</h1>
+    <nav class="nav">
+      <sl-button id="navPlay" variant="default" pill>Spelen</sl-button>
+      <sl-button id="navStats" href="stats.html" variant="default" pill>Statistieken</sl-button>
+      <sl-button id="newGameBtn" variant="primary" pill>Nieuw Spel</sl-button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <h2>Volwassen Dieren:</h2>
+      <div id="adultZone" class="deck" aria-label="Volwassen dieren"></div>
+    </section>
+    <section class="panel">
+      <h2>Baby Dieren:</h2>
+      <div id="babyZone" class="zone" aria-label="Baby dieren"></div>
+    </section>
+  </main>
+
+  <section class="scorebar">
+    <div>Jouw Beurten: <span id="turns">0</span></div>
+    <div>Tijd: <span id="time">0s</span></div>
+    <div id="status" class="status" aria-live="polite"></div>
+    <form id="scoreForm" class="score-form" autocomplete="off">
+      <sl-input id="playerName" name="name" placeholder="Jouw Naam" maxlength="20"></sl-input>
+      <sl-button id="scoreSubmitBtn" variant="success">Score Opslaan</sl-button>
+      <button id="nativeSubmit" type="submit" style="position:absolute;left:-9999px;opacity:0;width:1px;height:1px"></button>
+    </form>
+  </section>
+
+  <footer class="site-footer">
+    <small>Kies de afbeeldingen om de juiste ouder met baby te verbinden.</small>
+  </footer>
+
+  <script src="app.js" defer></script>
+
+  <sl-dialog id="winDialog" label="Goed gedaan!" class="dialog-win">
+    <p id="winSummary">Je bent klaar!</p>
+    <div slot="footer" style="display:flex; gap:8px; justify-content:flex-end">
+      <sl-button id="winSaveBtn" variant="success">Score Opslaan</sl-button>
+      <sl-button id="winNewBtn" variant="primary">Nieuw Spel</sl-button>
+    </div>
+  </sl-dialog>
+
+  <sl-dialog id="scoresDialog" label="Top scores" class="dialog-scores">
+    <ol id="dialogHighscoresList" style="margin:0; padding-left:18px"></ol>
+    <div slot="footer">
+      <sl-button id="scoresCloseBtn" variant="primary">Sluiten</sl-button>
+    </div>
+  </sl-dialog>
+</body>
+</html>
+
+
